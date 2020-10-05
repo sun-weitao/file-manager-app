@@ -13,7 +13,7 @@
     @Styles.Render("~/Static/css/skins/_all-skins.min.css")
     @Styles.Render("~/Static/plugins/iCheck/flat/blue.css")
     @Styles.Render("~/Static/plugins/morris/morris.css")
-
+    @Styles.Render("~/Static/plugins/datatables/dataTables.bootstrap.css")
 </head>
 <body class="skin-blue">
     <div class="wrapper">
@@ -40,16 +40,10 @@
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
                 <ul class="sidebar-menu">
-                    <li class="header">MAIN NAVIGATION</li>
-                    <li class="active treeview">
-                        <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                            <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="#download"><i class='fa fa-circle-o'></i>首页</a></li>
+                    <li><a href="#download"><i class='fa fa-circle-o'></i>文件管理</a></li>
+                    <li><a href="/File/UploadFile"><i class='fa fa-circle-o'></i>上传文件</a></li>
+                    <li><a href="#download"><i class='fa fa-circle-o'></i>用户管理</a></li>
                 </ul>
             </section>
         </aside>
@@ -62,9 +56,29 @@
             </div>
             <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
         </footer>
-     </div><!--/.wrapper-->
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    </div><!--/.wrapper-->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    @Scripts.Render("~/Static/plugins/morris/morris.min.js")
+    @Scripts.Render("~/Static/plugins/sparkline/jquery.sparkline.min.js")
+    @Scripts.Render("~/Static/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js")
+    @Scripts.Render("~/Static/plugins/jvectormap/jquery-jvectormap-world-mill-en.js")
+    @Scripts.Render("~/Static/plugins/datatables/jquery.dataTables.js")
+    @Scripts.Render("~/Static/plugins/datatables/dataTables.bootstrap.js")
+    @Scripts.Render("~/Static/plugins/slimScroll/jquery.slimscroll.min.js")
+    @Scripts.Render("~/Static/plugins/knob/jquery.knob.js")
+    @Scripts.Render("~/Static/plugins/daterangepicker/daterangepicker.js")
+    @Scripts.Render("~/Static/js/app.min.js")
+
+    @RenderSection("scripts", required: false)
 </body>
 </html>
+<script type="text/javascript">
+    $("#example1").dataTable();
+</script>

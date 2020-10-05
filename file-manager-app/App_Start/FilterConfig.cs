@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using file_manager_app.Filters;
+using System.Web;
 using System.Web.Mvc;
 
 namespace file_manager_app
@@ -8,6 +9,7 @@ namespace file_manager_app
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new FileManagerFilter());
         }
     }
 }

@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DataModelStoreContainer">
+    <EntitySet Name="User" EntityType="DataModel.Store.User" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="File" EntityType="DataModel.Store.File" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Folder" EntityType="DataModel.Store.Folder" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Log" EntityType="DataModel.Store.Log" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FolderFolder" EntityType="DataModel.Store.FolderFolder" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserFile" Association="DataModel.Store.UserFile">
+      <End Role="User" EntitySet="User" />
+      <End Role="File" EntitySet="File" />
+    </AssociationSet>
+    <AssociationSet Name="FolderFile" Association="DataModel.Store.FolderFile">
+      <End Role="Folder" EntitySet="Folder" />
+      <End Role="File" EntitySet="File" />
+    </AssociationSet>
+    <AssociationSet Name="UserFolder" Association="DataModel.Store.UserFolder">
+      <End Role="User" EntitySet="User" />
+      <End Role="Folder" EntitySet="Folder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FolderFolder_Folder" Association="DataModel.Store.FK_FolderFolder_Folder">
+      <End Role="Folder" EntitySet="Folder" />
+      <End Role="FolderFolder" EntitySet="FolderFolder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FolderFolder_Folder1" Association="DataModel.Store.FK_FolderFolder_Folder1">
+      <End Role="Folder1" EntitySet="Folder" />
+      <End Role="FolderFolder" EntitySet="FolderFolder" />
+    </AssociationSet>
+    <AssociationSet Name="UserLog" Association="DataModel.Store.UserLog">
+      <End Role="User" EntitySet="User" />
+      <End Role="Log" EntitySet="Log" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="password" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="createtime" Type="datetime" Nullable="false" />
+    <Property Name="issuperadmin" Type="bit" Nullable="false" DefaultValue="false" />
+  </EntityType>
+  <EntityType Name="File">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="url" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="mark" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="isshared" Type="bit" Nullable="false" />
+    <Property Name="createtime" Type="datetime" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+    <Property Name="Folder_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Folder">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="isshared" Type="bit" Nullable="false" />
+    <Property Name="createtime" Type="datetime" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+    <Property Name="Folder_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="action" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="createtime" Type="datetime" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FolderFolder">
+    <Key>
+      <PropertyRef Name="Folder1_id" />
+      <PropertyRef Name="Folder2_id" />
+    </Key>
+    <Property Name="Folder1_id" Type="int" Nullable="false" />
+    <Property Name="Folder2_id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="UserFile">
+    <End Role="User" Type="DataModel.Store.User" Multiplicity="1" />
+    <End Role="File" Type="DataModel.Store.File" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="File">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FolderFile">
+    <End Role="Folder" Type="DataModel.Store.Folder" Multiplicity="1" />
+    <End Role="File" Type="DataModel.Store.File" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Folder">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="File">
+        <PropertyRef Name="Folder_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserFolder">
+    <End Role="User" Type="DataModel.Store.User" Multiplicity="1" />
+    <End Role="Folder" Type="DataModel.Store.Folder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Folder">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserLog">
+    <End Role="User" Type="DataModel.Store.User" Multiplicity="1" />
+    <End Role="Log" Type="DataModel.Store.Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FolderFolder_Folder">
+    <End Role="Folder" Type="DataModel.Store.Folder" Multiplicity="1" />
+    <End Role="FolderFolder" Type="DataModel.Store.FolderFolder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Folder">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FolderFolder">
+        <PropertyRef Name="Folder1_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FolderFolder_Folder1">
+    <End Role="FolderFolder" Type="DataModel.Store.FolderFolder" Multiplicity="*" />
+    <End Role="Folder1" Type="DataModel.Store.Folder" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Folder1">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FolderFolder">
+        <PropertyRef Name="Folder2_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DataModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="User" EntityType="DataModel.User" />
+          <EntitySet Name="File" EntityType="DataModel.File" />
+          <AssociationSet Name="UserFile" Association="DataModel.UserFile">
+            <End Role="User" EntitySet="User" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <EntitySet Name="Folder" EntityType="DataModel.Folder" />
+          <AssociationSet Name="FolderFile" Association="DataModel.FolderFile">
+            <End Role="Folder" EntitySet="Folder" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="UserFolder" Association="DataModel.UserFolder">
+            <End Role="User" EntitySet="User" />
+            <End Role="Folder" EntitySet="Folder" />
+          </AssociationSet>
+          <AssociationSet Name="FolderFolder" Association="DataModel.FolderFolder">
+            <End Role="Folder" EntitySet="Folder" />
+            <End Role="Folder1" EntitySet="Folder" />
+          </AssociationSet>
+          <EntitySet Name="Log" EntityType="DataModel.Log" />
+          <AssociationSet Name="UserLog" Association="DataModel.UserLog">
+            <End Role="User" EntitySet="User" />
+            <End Role="Log" EntitySet="Log" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="32" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="32" />
+          <Property Name="createtime" Type="DateTime" Nullable="false" />
+          <Property Name="issuperadmin" Type="Boolean" Nullable="false" DefaultValue="false" />
+          <NavigationProperty Name="File" Relationship="DataModel.UserFile" FromRole="User" ToRole="File" />
+          <NavigationProperty Name="Folder" Relationship="DataModel.UserFolder" FromRole="User" ToRole="Folder" />
+          <NavigationProperty Name="Log" Relationship="DataModel.UserLog" FromRole="User" ToRole="Log" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" Nullable="false" />
+          <Property Name="url" Type="String" Nullable="false" />
+          <Property Name="type" Type="String" Nullable="false" />
+          <Property Name="mark" Type="String" Nullable="false" />
+          <Property Name="isshared" Type="Boolean" Nullable="false" />
+          <Property Name="createtime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DataModel.UserFile" FromRole="File" ToRole="User" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Folder" Relationship="DataModel.FolderFile" FromRole="File" ToRole="Folder" />
+          <Property Name="Folder_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="UserFile">
+          <End Type="DataModel.User" Role="User" Multiplicity="1" />
+          <End Type="DataModel.File" Role="File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" Nullable="false" />
+          <Property Name="isshared" Type="Boolean" Nullable="false" />
+          <Property Name="createtime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="File" Relationship="DataModel.FolderFile" FromRole="Folder" ToRole="File" />
+          <NavigationProperty Name="User" Relationship="DataModel.UserFolder" FromRole="Folder" ToRole="User" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+          <Property Name="Folder_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Folder2" Relationship="DataModel.FolderFolder" FromRole="Folder" ToRole="Folder1" />
+          <NavigationProperty Name="Folder1" Relationship="DataModel.FolderFolder" FromRole="Folder1" ToRole="Folder" />
+          </EntityType>
+        <Association Name="FolderFile">
+          <End Type="DataModel.Folder" Role="Folder" Multiplicity="1" />
+          <End Type="DataModel.File" Role="File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="Folder_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserFolder">
+          <End Type="DataModel.User" Role="User" Multiplicity="1" />
+          <End Type="DataModel.Folder" Role="Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Folder">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FolderFolder">
+          <End Type="DataModel.Folder" Role="Folder" Multiplicity="*" />
+          <End Type="DataModel.Folder" Role="Folder1" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="action" Type="String" Nullable="false" />
+          <Property Name="createtime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="DataModel.UserLog" FromRole="Log" ToRole="User" />
+          <Property Name="User_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="UserLog">
+          <End Type="DataModel.User" Role="User" Multiplicity="1" />
+          <End Type="DataModel.Log" Role="Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="DataModelContainer">
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.User)">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="createtime" ColumnName="createtime" />
+          <ScalarProperty Name="issuperadmin" ColumnName="issuperadmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="File">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.File)">
+        <MappingFragment StoreEntitySet="File">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="mark" ColumnName="mark" />
+          <ScalarProperty Name="isshared" ColumnName="isshared" />
+          <ScalarProperty Name="createtime" ColumnName="createtime" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+          <ScalarProperty Name="Folder_id" ColumnName="Folder_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Folder">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Folder)">
+        <MappingFragment StoreEntitySet="Folder">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="isshared" ColumnName="isshared" />
+          <ScalarProperty Name="createtime" ColumnName="createtime" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+          <ScalarProperty Name="Folder_id" ColumnName="Folder_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Log">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Log)">
+        <MappingFragment StoreEntitySet="Log">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="action" ColumnName="action" />
+          <ScalarProperty Name="createtime" ColumnName="createtime" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FolderFolder" TypeName="DataModel.FolderFolder" StoreEntitySet="FolderFolder">
+      <EndProperty Name="Folder">
+        <ScalarProperty Name="id" ColumnName="Folder1_id" />
+      </EndProperty>
+      <EndProperty Name="Folder1">
+        <ScalarProperty Name="id" ColumnName="Folder2_id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

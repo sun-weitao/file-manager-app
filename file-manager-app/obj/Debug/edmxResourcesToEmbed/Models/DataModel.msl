@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="DataModelContainer">
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.User)">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="createtime" ColumnName="createtime" />
+          <ScalarProperty Name="issuperadmin" ColumnName="issuperadmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="File">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.File)">
+        <MappingFragment StoreEntitySet="File">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="mark" ColumnName="mark" />
+          <ScalarProperty Name="isshared" ColumnName="isshared" />
+          <ScalarProperty Name="createtime" ColumnName="createtime" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+          <ScalarProperty Name="Folder_id" ColumnName="Folder_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Folder">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Folder)">
+        <MappingFragment StoreEntitySet="Folder">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="isshared" ColumnName="isshared" />
+          <ScalarProperty Name="createtime" ColumnName="createtime" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+          <ScalarProperty Name="Folder_id" ColumnName="Folder_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Log">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Log)">
+        <MappingFragment StoreEntitySet="Log">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="action" ColumnName="action" />
+          <ScalarProperty Name="createtime" ColumnName="createtime" />
+          <ScalarProperty Name="User_id" ColumnName="User_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FolderFolder" TypeName="DataModel.FolderFolder" StoreEntitySet="FolderFolder">
+      <EndProperty Name="Folder">
+        <ScalarProperty Name="id" ColumnName="Folder1_id" />
+      </EndProperty>
+      <EndProperty Name="Folder1">
+        <ScalarProperty Name="id" ColumnName="Folder2_id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DataModelStoreContainer">
+    <EntitySet Name="User" EntityType="DataModel.Store.User" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="File" EntityType="DataModel.Store.File" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Folder" EntityType="DataModel.Store.Folder" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Log" EntityType="DataModel.Store.Log" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FolderFolder" EntityType="DataModel.Store.FolderFolder" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserFile" Association="DataModel.Store.UserFile">
+      <End Role="User" EntitySet="User" />
+      <End Role="File" EntitySet="File" />
+    </AssociationSet>
+    <AssociationSet Name="FolderFile" Association="DataModel.Store.FolderFile">
+      <End Role="Folder" EntitySet="Folder" />
+      <End Role="File" EntitySet="File" />
+    </AssociationSet>
+    <AssociationSet Name="UserFolder" Association="DataModel.Store.UserFolder">
+      <End Role="User" EntitySet="User" />
+      <End Role="Folder" EntitySet="Folder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FolderFolder_Folder" Association="DataModel.Store.FK_FolderFolder_Folder">
+      <End Role="Folder" EntitySet="Folder" />
+      <End Role="FolderFolder" EntitySet="FolderFolder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FolderFolder_Folder1" Association="DataModel.Store.FK_FolderFolder_Folder1">
+      <End Role="Folder1" EntitySet="Folder" />
+      <End Role="FolderFolder" EntitySet="FolderFolder" />
+    </AssociationSet>
+    <AssociationSet Name="UserLog" Association="DataModel.Store.UserLog">
+      <End Role="User" EntitySet="User" />
+      <End Role="Log" EntitySet="Log" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="password" Type="nvarchar" Nullable="false" MaxLength="32" />
+    <Property Name="createtime" Type="datetime" Nullable="false" />
+    <Property Name="issuperadmin" Type="bit" Nullable="false" DefaultValue="false" />
+  </EntityType>
+  <EntityType Name="File">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="url" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="mark" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="isshared" Type="bit" Nullable="false" />
+    <Property Name="createtime" Type="datetime" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+    <Property Name="Folder_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Folder">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="isshared" Type="bit" Nullable="false" />
+    <Property Name="createtime" Type="datetime" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+    <Property Name="Folder_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="action" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="createtime" Type="datetime" Nullable="false" />
+    <Property Name="User_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FolderFolder">
+    <Key>
+      <PropertyRef Name="Folder1_id" />
+      <PropertyRef Name="Folder2_id" />
+    </Key>
+    <Property Name="Folder1_id" Type="int" Nullable="false" />
+    <Property Name="Folder2_id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="UserFile">
+    <End Role="User" Type="DataModel.Store.User" Multiplicity="1" />
+    <End Role="File" Type="DataModel.Store.File" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="File">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FolderFile">
+    <End Role="Folder" Type="DataModel.Store.Folder" Multiplicity="1" />
+    <End Role="File" Type="DataModel.Store.File" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Folder">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="File">
+        <PropertyRef Name="Folder_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserFolder">
+    <End Role="User" Type="DataModel.Store.User" Multiplicity="1" />
+    <End Role="Folder" Type="DataModel.Store.Folder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Folder">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserLog">
+    <End Role="User" Type="DataModel.Store.User" Multiplicity="1" />
+    <End Role="Log" Type="DataModel.Store.Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FolderFolder_Folder">
+    <End Role="Folder" Type="DataModel.Store.Folder" Multiplicity="1" />
+    <End Role="FolderFolder" Type="DataModel.Store.FolderFolder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Folder">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FolderFolder">
+        <PropertyRef Name="Folder1_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FolderFolder_Folder1">
+    <End Role="FolderFolder" Type="DataModel.Store.FolderFolder" Multiplicity="*" />
+    <End Role="Folder1" Type="DataModel.Store.Folder" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Folder1">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FolderFolder">
+        <PropertyRef Name="Folder2_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using file_manager_app.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +9,11 @@ namespace file_manager_app.Controllers
 {
     public class HomeController : Controller
     {
+        DataModelContainer dataModelContainer = new DataModelContainer();
+
         public ActionResult Index()
         {
+
             return View();
         }
 
